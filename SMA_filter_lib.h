@@ -28,8 +28,10 @@ extern "C" {
 	
 #include "main.h"
 
+/* Макросы */
 #define SMA_FILTER_ORDER 32 /* Порядок SMA фильтра */
 
+/* Прототипы функций */
 uint16_t SMA_FILTER_Get_Value(uint16_t *Filter_buffer, uint16_t *Data);
 
 #ifdef __cplusplus
