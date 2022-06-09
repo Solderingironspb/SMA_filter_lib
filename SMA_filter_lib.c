@@ -9,13 +9,15 @@
   ******************************************************************************
  * @attention
  * 
+ *  Библиотека помогает отфильтровать данные с 12 битного АЦП микроконтроллера, 
+ *  приведя показания к более устойчивым.
+ *  
  *  YouTube: https://www.youtube.com/channel/UCzZKTNVpcMSALU57G1THoVw
  *  GitHub: https://github.com/Solderingironspb/Lessons-Stm32/blob/master/README.md
  *  Группа ВК: https://vk.com/solderingiron.stm32
  *
  ******************************************************************************
  */
-
 
 #include "SMA_filter_lib.h"
 
