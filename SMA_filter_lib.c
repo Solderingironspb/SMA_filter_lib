@@ -49,12 +49,12 @@ uint16_t SMA_FILTER_Get_Value(uint16_t *Filter_buffer, uint16_t *Data) {
 	
 	/*
 	 * Найдем среднее арифметическое значение:
+	 * Если SMA_FILTER_ORDER -это 2 в какой-то степени, то можно деление заменить смещением
 	 * Пример: SMA_FILTER_ORDER = 32;
 	 * 32 = 2*2*2*2*2;
 	 * Тогда Result = Result/32 будет равен, как Result = Result >> 5u;
 	 *
 	 */
-	
 	//Result = Result / SMA_FILTER_ORDER;
 	Result = Result >> 5u; //32 = 2^5;
 		
