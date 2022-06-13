@@ -1,10 +1,10 @@
 /**
  ******************************************************************************
- *  @file SMA_filter_lib.c
+ *  @file SMA_filter_lib.h
  *  @brief Простое скользящее среднее, или арифметическое скользящее среднее 
  *  (англ. simple moving average, англ. SMA)
  *  @author Волков Олег
- *  @date 09.06.2022
+ *  @date 12.06.2022
  *
   ******************************************************************************
  * @attention
@@ -19,49 +19,36 @@
  ******************************************************************************
  */
 
-#include "SMA_filter_lib.h"
+#ifndef __SMA_FILTER_LIB_H
+#define __SMA_FILTER_LIB_H
 
-/* Создать в main.c ----------------------------------------------------------------*/
-  //uint16_t Filter_Buffer_1[SMA_FILTER_ORDER] = { 0, };
-/*----------------------------------------------------------------------------------*/
+#ifdef __cplusplus
+extern "C" {
+#endif
+	
+#include "main.h"
 
+/* Макросы -------------------------------------------------------------------------------------------------------------------------------*/
+#define SMA_FILTER_ORDER 32 /* Порядок SMA фильтра */
 
-/**
- ******************************************************************************
- *  @breif Функция получения отфильтрованного значения(SMA Filter)
- *  @param  *Filter_buffer - Массив, где будут лежать сырые значения 
- *  @param  *Data - Сырые данные	         
- *  @retval  Result - Значение, полученное после SMA фильтра.
- ******************************************************************************
- */
-uint16_t SMA_FILTER_Get_Value(uint16_t *Filter_buffer, uint16_t *Data) {
+/* Выберите версию фильтра(Делают они одно и то же, просто разными способами. Какой из них оптимальнее - решать Вам)*/
+#define SMA_VERSION_1
+//#define SMA_VERSION_2
 	
-	/* Создадим переменную для суммы сырых значений */
-	uint32_t Result = 0;
 	
-	/* Начнем заполнять массив сырыми значениями с конца */
-	Filter_buffer[SMA_FILTER_ORDER - 1] = *Data;
+/* Прототипы функций ----------------------------------------------------------------------------------------------------------------------*/
 	
-	/* Просуммируем все элементы массива */
-	for (uint8_t i = 0; i < SMA_FILTER_ORDER; i++) {
-		Result += Filter_buffer[i];
-	}
+#if defined (SMA_VERSION_1)
+	uint16_t SMA_FILTER_Get_Value(uint16_t *SMA_Filter_buffer, uint16_t *RAW_Data);
+#elif defined (SMA_VERSION_2)
+	uint16_t SMA_FILTER_Get_Value(uint8_t *SMA_Filter_counter, uint16_t *SMA_Filter_buffer, uint32_t *SMA_Filter_Result, uint16_t *RAW_Data);
+#endif
+
 	
-	/*
-	 * Найдем среднее арифметическое значение:
-	 * Если SMA_FILTER_ORDER -это 2 в какой-то степени, то можно деление заменить смещением
-	 * Пример: SMA_FILTER_ORDER = 32;
-	 * 32 = 2*2*2*2*2;
-	 * Тогда Result = Result/32 будет равен, как Result = Result >> 5u;
-	 *
-	 */
-	//Result = Result / SMA_FILTER_ORDER;
-	Result = Result >> 5u; //32 = 2^5;
-		
-	/* Сдвинем все элементы массива влево на 1 */
-	for (uint8_t i = 0; i < SMA_FILTER_ORDER; i++) {
-		Filter_buffer[i] = Filter_buffer[i + 1];
-	}
 	
-	return (uint16_t)Result; //Вернем среднее арифметическое значение
+#ifdef __cplusplus
 }
+#endif
+
+#endif /* __SMA_FILTER_LIB_H */
+
