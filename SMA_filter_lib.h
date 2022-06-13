@@ -4,7 +4,7 @@
  *  @brief Простое скользящее среднее, или арифметическое скользящее среднее 
  *  (англ. simple moving average, англ. SMA)
  *  @author Волков Олег
- *  @date 09.06.2022
+ *  @date 12.06.2022
  *
   ******************************************************************************
  * @attention
@@ -28,14 +28,27 @@ extern "C" {
 	
 #include "main.h"
 
-/* Макросы */
+/* Макросы -------------------------------------------------------------------------------------------------------------------------------*/
 #define SMA_FILTER_ORDER 32 /* Порядок SMA фильтра */
 
-/* Прототипы функций */
-uint16_t SMA_FILTER_Get_Value(uint16_t *Filter_buffer, uint16_t *Data);
+/* Выберите версию фильтра(Делают они одно и то же, просто разными способами. Какой из них оптимальнее - решать Вам)*/
+#define SMA_VERSION_1
+//#define SMA_VERSION_2
+	
+	
+/* Прототипы функций ----------------------------------------------------------------------------------------------------------------------*/
+	
+#if defined (SMA_VERSION_1)
+	uint16_t SMA_FILTER_Get_Value(uint16_t *SMA_Filter_buffer, uint16_t *RAW_Data);
+#elif defined (SMA_VERSION_2)
+	uint16_t SMA_FILTER_Get_Value(uint8_t *SMA_Filter_counter, uint16_t *SMA_Filter_buffer, uint32_t *SMA_Filter_Result, uint16_t *RAW_Data);
+#endif
 
+	
+	
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* __SMA_FILTER_LIB_H */
+
